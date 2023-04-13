@@ -1,21 +1,30 @@
-// Core Module
-const fs = require("fs");
-const { createContact, createQuestion } = require("./contacts");
+const { createContact } = require("./contacts");
 
-const dirFolder = "./datas";
-if (!fs.existsSync(dirFolder)) {
-  fs.mkdirSync(dirFolder);
-}
-const dirFile = "./datas/contacts.json";
-if (!fs.existsSync(dirFile)) {
-  fs.writeFileSync(dirFile, "[]", "utf-8");
-}
-
-const mainProcess = async () => {
-  const name = await createQuestion("Input your name: ");
-  const email = await createQuestion("Input your email : ");
-  const phone = await createQuestion("Input your phone : ");
-  createContact(name, email, phone);
-};
-
-mainProcess();
+// Yargs
+const { demandOption } = require("yargs");
+const yargs = require("yargs");
+yargs.command({
+  command: "add",
+  describe: "adding contact",
+  builder: {
+    name: {
+      describe: "write full name",
+      demandOption: true,
+      type: "string",
+    },
+    email: {
+      describe: "write email",
+      demandOption: true,
+      type: "string",
+    },
+    phone: {
+      describe: "write phone num",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler(argv) {
+    createContact(argv.name, argv.email, argv.phone);
+  },
+});
+yargs.parse();
