@@ -15,10 +15,13 @@ const createContact = (name, email, phone) => {
     console.log("name used, try to change name!");
     return true;
   }
+  // check email validator
   if (!validator.isEmail(email)) {
     console.log(chalk.white.bgRed("please enter valid email"));
     return false;
-  } else if (!validator.isMobilePhone(phone, "id-ID")) {
+  }
+  // check id-phone validator
+  else if (!validator.isMobilePhone(phone, "id-ID")) {
     console.log(chalk.white.bgRed("please enter indonesian region valid mobile phone"));
     return false;
   }
